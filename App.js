@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
-import 'react-native-gesture-handler';
 
 // import the screens
 import Start from './components/Start';

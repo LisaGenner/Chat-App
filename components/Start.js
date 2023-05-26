@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { StyleSheet, View, Text, Button, TextInput, ImageBackground, TouchableOpacity  } from 'react-native';
 
 const backgroundColors = {
-  black: { backgroundColor: '#000000'},
-  grey: { backgroundColor: '#8a95a5'},
+  black: { backgroundColor: '#090C08'},
   purple: { backgroundColor: '#474056'},
-  green: { backgroundColor: '#94ae89'}
+  grey: { backgroundColor: '#8A95A5'},
+  green: { backgroundColor: '#B9C6AE'}
 }
 export default class Start extends React.Component {
  
@@ -25,11 +25,12 @@ style={[styles.container, styles.image]}
   <Text style={styles.title}>Chat App</Text>
 
 <View style={styles.inputBox} >
+{/* <Icon style={styles.personIcon} name="ios-person" size={20} color="#000"/> */}
 <TextInput
 style={styles.nameBox}
 value={this.state.name}
 onChangeText={(name)=> this.setState({ name })}
-placeholder='Enter your Name'
+placeholder='Your Name'
 />
 <View>
 <Text style={styles.colorSelector} >Choose your Background:</Text>
@@ -47,17 +48,6 @@ this.setState({ color: black.backgroundColor })
 />
 <TouchableOpacity style={[
 styles.color, 
-grey,
-this.state.color === grey.backgroundColor
-? styles.colorSelected
-: {}
-]}
-onPress={() =>
-this.setState({ color: grey.backgroundColor })
-}
-/>
-<TouchableOpacity style={[
-styles.color, 
 purple,
 this.state.color === purple.backgroundColor
 ? styles.colorSelected
@@ -65,6 +55,17 @@ this.state.color === purple.backgroundColor
 ]}
 onPress={() =>
 this.setState({ color: purple.backgroundColor })
+}
+/>
+<TouchableOpacity style={[
+styles.color, 
+grey,
+this.state.color === grey.backgroundColor
+? styles.colorSelected
+: {}
+]}
+onPress={() =>
+this.setState({ color: grey.backgroundColor })
 }
 />
 <TouchableOpacity style={[
@@ -82,7 +83,6 @@ this.setState({ color: green.backgroundColor })
 </View>
 <TouchableOpacity
 style={[styles.nameBox, styles.chatBox]}
-// title='Go to Chat'
  onPress={() => 
 this.props.navigation.navigate('Chat', 
 {
@@ -106,28 +106,71 @@ const styles = StyleSheet.create({
  container: {
    flex: 1,
     },
+
   image: {
     flexDirection: 'column',
    justifyContent: 'space-between',
    alignItems: 'center'
     },
-    title: {  color: '#fff',
-    fontSize: 50,
+    
+    title: {  
+    fontColor: '#FFFFFF',
+    fontSize: 45,
     fontWeight: '600',
-    marginTop: 60
+    marginTop: 60,
+    fontWeight: 'bold',
   },
+
  inputBox: {
-    background: '#fff',
+    background: '#FFFFFF',
     height: '44%',
     width: "88%",
     justifyContent: 'space-between',
    alignItems: 'center',
    paddingVertical: 20
    },
-  nameBox: {},
 
+  nameBox: {
+    height: 50,
+    width: '88%',
+    borderColor: '#757083',
+    borderWidth: 1,
+    borderRadius: 2,
+    color: 'black',
+    opacity: 50,
+    fontSize: 16,
+    fontWeight: '300',
+    paddingLeft: 10,
+ },
+
+  chatBox: {
+    backgroundColor: '#757083',
+    justifyContent: 'center'
+  },
+
+  color: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    margin: 10
+   },
    
-  //  TouchableOpacity: {
-  //   borderRadius: 20
-  //  }
+   colorWrapper: {
+    flexDirection: 'row'
+  },
+
+   chatBoxText: {
+    textAlign:'center',
+    fontColor: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+//   colorSelector: {
+//     textAlign: 'center',
+//     fontSize: 16,
+//     fontWeight: '300',
+//     color: '#757083',
+//     opacity: 100
+// },
+
 });

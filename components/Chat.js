@@ -1,26 +1,18 @@
+import React from 'react';
 import { useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { render } from 'react-dom';
+import { View, Text } from 'react-native';
 
-const Screen2 = ({route, navigation }) => {
+const Chat = ({route, navigation }) => {
     const { name } = route.params;
 
-    useEffect(() => {
-        navigation.setOptions({ title: name });
-      }, []);
-
- return (
+    
+ render (
    <View style={styles.container}>
      <Text>Chat</Text>
    </View>
  );
 }
 
-const styles = StyleSheet.create({
- container: {
-   flex: 1,
-   justifyContent: 'center',
-   alignItems: 'center'
- }
-});
 
-export default Screen2;
+export default Chat;
