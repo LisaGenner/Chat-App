@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 import { StyleSheet, View, Text, Button, TextInput, ImageBackground, TouchableOpacity  } from 'react-native';
 
 const backgroundColors = {
@@ -108,13 +107,13 @@ const styles = StyleSheet.create({
     },
 
   image: {
-    flexDirection: 'column',
+   flexDirection: 'column',
    justifyContent: 'space-between',
    alignItems: 'center'
     },
     
     title: {  
-    fontColor: '#FFFFFF',
+    color: '#fffff',
     fontSize: 45,
     fontWeight: '600',
     marginTop: 60,
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
   },
 
  inputBox: {
-    background: '#FFFFFF',
+    backgroundColor: '#fffff',
     height: '44%',
     width: "88%",
     justifyContent: 'space-between',
@@ -143,34 +142,35 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
  },
 
-  chatBox: {
+//  colorSelector: {
+//   textAlign: 'center',
+//   fontSize: 16,
+//   fontWeight: '300',
+//   color: '#757083',
+//   opacity: 100
+// },
+
+colorWrapper: {
+  flexDirection: 'row'
+},
+
+color: {
+  width: 40,
+  height: 40,
+  borderRadius: 20,
+  margin: 10
+ },
+ chatBox: {
     backgroundColor: '#757083',
     justifyContent: 'center'
   },
-
-  color: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    margin: 10
-   },
-   
-   colorWrapper: {
-    flexDirection: 'row'
-  },
-
+  
    chatBoxText: {
     textAlign:'center',
-    fontColor: '#FFFFFF',
+    fontColor: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
-//   colorSelector: {
-//     textAlign: 'center',
-//     fontSize: 16,
-//     fontWeight: '300',
-//     color: '#757083',
-//     opacity: 100
-// },
+
 
 });

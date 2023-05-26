@@ -14,5 +14,4 @@ const Chat = ({route, navigation }) => {
  );
 }
 
-
 export default Chat;
