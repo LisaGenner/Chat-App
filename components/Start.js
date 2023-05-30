@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     },
     
     title: {  
-    color: '#fffff',
+    color: 'white',
     fontSize: 45,
     fontWeight: '600',
     marginTop: 60,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
 
  inputBox: {
-    backgroundColor: '#fffff',
+    backgroundColor: 'white',
     height: '44%',
     width: "88%",
     justifyContent: 'space-between',
@@ -160,7 +160,7 @@ color: {
   borderRadius: 20,
   margin: 10
  },
- 
+
  chatBox: {
     backgroundColor: '#757083',
     justifyContent: 'center'
