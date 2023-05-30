@@ -142,13 +142,13 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
  },
 
-//  colorSelector: {
-//   textAlign: 'center',
-//   fontSize: 16,
-//   fontWeight: '300',
-//   color: '#757083',
-//   opacity: 100
-// },
+ colorSelector: {
+  textAlign: 'center',
+  fontSize: 16,
+  fontWeight: '300',
+  color: 'black',
+  opacity: 100
+},
 
 colorWrapper: {
   flexDirection: 'row'
@@ -160,6 +160,7 @@ color: {
   borderRadius: 20,
   margin: 10
  },
+ 
  chatBox: {
     backgroundColor: '#757083',
     justifyContent: 'center'

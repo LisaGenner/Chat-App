@@ -1,17 +1,23 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { render } from 'react-dom';
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 const Chat = ({route, navigation }) => {
-    const { name } = route.params;
+    const { color, name } = route.params;
 
+    console.log(color, name);
     
- render (
-   <View style={styles.container}>
+ return (
+   <View style={[styles.container, { backgroundColor: color
+   }]}>
      <Text>Chat</Text>
    </View>
  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  }
+});    
 
 export default Chat;
