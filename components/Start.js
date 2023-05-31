@@ -168,7 +168,7 @@ color: {
   
    chatBoxText: {
     textAlign:'center',
-    fontColor: '#fff',
+    color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },

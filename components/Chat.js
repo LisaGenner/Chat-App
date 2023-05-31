@@ -52,11 +52,9 @@ return (
   }]}>
      <GiftedChat 
   messages={messages}
-  renderBubble={renderBubble}
+  renderBubble={renderBubble}//prop so can change speech bubble color
   onSend={messages => onSend(messages)}
-  user={{
-    _id: 1
-  }}
+  user={{_id: 1}}//user id for the current user
   />
   {Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null }
   {Platform.OS === "ios"?<KeyboardAvoidingView behavior="padding" />: null}
