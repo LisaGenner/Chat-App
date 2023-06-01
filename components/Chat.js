@@ -19,7 +19,6 @@ const Chat = ({route, navigation }) => {
             _id: 2,
             name: "React Native",
             avatar: "https://placeimg.com/140/140/any",
-      flexDirection: 'row',
           },
         },
        {
