@@ -45,7 +45,7 @@ const Chat = ({ db, route, navigation, isConnected }) => {
     }
   }, []);
 
-  const referenceChatMessages = firebase.firestore().collection("messages");
+  // const referenceChatMessages = firebase.firestore().collection("messages");
   let unsubscribe;
 
   const onCollectionUpdate = (querySnapshot) => {
@@ -66,18 +66,18 @@ const Chat = ({ db, route, navigation, isConnected }) => {
     setMessages(messages);
   };
 
-  const addMessage = (message) => {
-    const { _id, createdAt, image, location, text, user } = message;
-    referenceChatMessages.add({
-      _id,
-      createdAt,
-      image: image || null,
-      location: location || null,
-      text: text || '',
-      uid: user._id,
-      user,
-    });
-  };
+  // const addMessage = (message) => {
+  //   const { _id, createdAt, image, location, text, user } = message;
+  //   referenceChatMessages.add({
+  //     _id,
+  //     createdAt,
+  //     image: image || null,
+  //     location: location || null,
+  //     text: text || '',
+  //     uid: user._id,
+  //     user,
+  //   });
+  // };
 
   const onSend = (messages = []) => {
     setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
@@ -122,3 +122,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+export default Chat;
