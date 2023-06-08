@@ -11,6 +11,7 @@ import Chat from './components/Chat';
 
 const Stack = createNativeStackNavigator();
 
+const App = () => {
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAT_rxmpBv_9gujGc6lJ51LiA-4CWvC0u4",
@@ -25,15 +26,36 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const App = () => {
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Start' screenOptions={{ headerTitleAlign: "center" }}>
-        <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} />
-        <Stack.Screen name='Chat' component={Chat} options={({ route }) => ({ title: route.params.name })} />
+      <Stack.Navigator
+        initialRouteName="Start"
+      >
+        <Stack.Screen
+          name="Start"
+          component={Start}
+        />
+         <Stack.Screen
+          name="Chat"
+        >
+          {props => <Chat      
+            db={db}
+         
+            {...props}
+          />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
+  // return (
+  //   <NavigationContainer>
+  //     <Stack.Navigator initialRouteName='Start' screenOptions={{ headerTitleAlign: "center" }}>
+  //       <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} />
+  //       <Stack.Screen name='Chat' component={Chat} options={({ route }) => ({ title: route.params.name })} />
+  //     </Stack.Navigator>
+  //   </NavigationContainer>
+  // );
 };
 
 export default App;

@@ -9,13 +9,19 @@ import firebase from 'firebase/app';
 
 import 'firebase/auth';
 const firebaseConfig = {
-  // Your Firebase configuration
+  apiKey: "AIzaSyAT_rxmpBv_9gujGc6lJ51LiA-4CWvC0u4",
+  authDomain: "chatapp-dec4e.firebaseapp.com",
+  projectId: "chatapp-dec4e",
+  storageBucket: "chatapp-dec4e.appspot.com",
+  messagingSenderId: "16129654801",
+  appId: "1:16129654801:web:08a35a5e4716da6ba771b0"
 };
 const app = initializeApp(firebaseConfig);
 // const auth = getAuth(app);
 const db = getFirestore(app);
 
-const Chat = ({ route, navigation }) => {
+const Chat = ({ db, route, navigation, isConnected }) => {
+
   const { name, userID } = route.params;
   const [messages, setMessages] = useState([]);
 

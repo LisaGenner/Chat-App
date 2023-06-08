@@ -5,9 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 
-const firebaseConfig = {
+// const firebaseConfig = {
   // Your Firebase configuration
-};
+// };
 
 // initializeApp(firebaseConfig);
 
