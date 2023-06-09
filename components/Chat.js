@@ -1,87 +1,59 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, KeyboardAvoidingView, Platform } from 'react-native';
-import { Bubble, GiftedChat } from "react-native-gifted-chat";
-import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp } from "firebase/firestore";
-import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
-import 'firebase/firestore';
-import firebase from 'firebase/app';
 
-import 'firebase/auth';
-const firebaseConfig = {
-  apiKey: "AIzaSyAT_rxmpBv_9gujGc6lJ51LiA-4CWvC0u4",
-  authDomain: "chatapp-dec4e.firebaseapp.com",
-  projectId: "chatapp-dec4e",
-  storageBucket: "chatapp-dec4e.appspot.com",
-  messagingSenderId: "16129654801",
-  appId: "1:16129654801:web:08a35a5e4716da6ba771b0"
-};
-const app = initializeApp(firebaseConfig);
-// const auth = getAuth(app);
-const db = getFirestore(app);
+import { useEffect, useState } from "react";
+import {
+  Alert,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Linking,
+  Platform,
+  View,
+} from "react-native";
+import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 
-const Chat = ({ db, route, navigation, isConnected }) => {
-
+const Chat = ({ isConnected, db, route, navigation }) => {
   const { name, userID } = route.params;
   const [messages, setMessages] = useState([]);
+  let unsubMessages;
 
   useEffect(() => {
     navigation.setOptions({ title: name });
 
-    const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
-    const unsubMessages = onSnapshot(q, (docs) => {
-      let newMessages = [];
-      docs.forEach(doc => {
-        newMessages.push({
-          id: doc.id,
-          ...doc.data(),
-          createdAt: new Date(doc.data().createdAt.toMillis())
+    if (isConnected === true) {
+      if (unsubMessages) unsubMessages();
+
+      const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+      unsubMessages = onSnapshot(q, (docs) => {
+        let newMessages = [];
+        docs.forEach(doc => {
+          newMessages.push({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: new Date(doc.data().createdAt.toMillis())
+          })
         })
-      })
-      setMessages(newMessages);
-    })
+        setMessages(newMessages);
+      });
+    }
+
     return () => {
       if (unsubMessages) unsubMessages();
-    }
-  }, []);
+    };
+  }, [isConnected]);
 
-  // const referenceChatMessages = firebase.firestore().collection("messages");
-  let unsubscribe;
-
-  const onCollectionUpdate = (querySnapshot) => {
-    const messages = [];
-    querySnapshot.forEach((doc) => {
-      let data = doc.data();
-      messages.push({
-        _id: data._id,
-        text: data.text,
-        createdAt: data.createdAt.toDate(),
-        user: {
-          _id: data.user._id,
-          avatar: data.user.avatar || '',
-          name: data.user.name,
-        }
-      });
-    });
-    setMessages(messages);
+  const onSend = (newMessages) => {
+    addDoc(collection(db, "messages"), newMessages[0]);
   };
 
-  // const addMessage = (message) => {
-  //   const { _id, createdAt, image, location, text, user } = message;
-  //   referenceChatMessages.add({
-  //     _id,
-  //     createdAt,
-  //     image: image || null,
-  //     location: location || null,
-  //     text: text || '',
-  //     uid: user._id,
-  //     user,
-  //   });
-  // };
-
-  const onSend = (messages = []) => {
-    setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
-    addMessage(messages[0]);
+  const renderInputToolbar = (props) => {
+    if (isConnected) return <InputToolbar {...props} />;
+    else return null;
   };
 
   const renderBubble = (props) => {
@@ -89,29 +61,33 @@ const Chat = ({ db, route, navigation, isConnected }) => {
       <Bubble
         {...props}
         wrapperStyle={{
-          right: { backgroundColor: '#000' }
+          right: {
+            backgroundColor: "#333232"
+          },
+          left: {
+            backgroundColor: "#FFF"
+          }
         }}
       />
-    )
+    );
   };
 
-  let backgroundColor = route.params.backgroundColor;
-
   return (
-    <View style={[styles.container, { backgroundColor }]}>
+    <View style={[styles.container, { backgroundColor: colors }]}>
       <GiftedChat
-        renderBubble={renderBubble}
+        style={styles.textingBox}
         messages={messages}
-        onSend={onSend}
+        renderBubble={renderBubble}
+        renderInputToolbar={renderInputToolbar}
+        onSend={messages => onSend(messages)}
         user={{
           _id: userID,
-          avatar: 'https://placeimg.com/140/140/any',
-          name: name
+          name: name,
         }}
       />
-      {Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null}
-      {Platform.OS === 'ios' ? <KeyboardAvoidingView behavior="padding" /> : null}
-      <Text style={styles.title}>Let's Chat</Text>
+      {Platform.OS === "ios" || Platform.OS === "android" ? (
+        <KeyboardAvoidingView behavior="height" />
+      ) : null}
     </View>
   );
 };
@@ -119,7 +95,10 @@ const Chat = ({ db, route, navigation, isConnected }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+  },
+  textingBox: {
+    flex: 1,
   },
 });
+
 export default Chat;
