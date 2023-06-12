@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert, LogBox } from 'react-native';
 import { useEffect } from "react";
 import { getFirestore, disableNetwork, enableNetwork } from "firebase/firestore";
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,12 +9,14 @@ import { getStorage } from "firebase/storage";
 import { useNetInfo } from "@react-native-community/netinfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 import Start from './components/Start';
 import Chat from './components/Chat';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAT_rxmpBv_9gujGc6lJ51LiA-4CWvC0u4",

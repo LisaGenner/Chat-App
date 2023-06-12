@@ -20,17 +20,15 @@ import {
 } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// const colors = ["black", "grey", "purple", "green"];
-
-
 const Chat = ({ isConnected, db, route, navigation }) => {
   const { name, color } = route.params;
   const [messages, setMessages] = useState([]);
+  const { userID } = route.params;
 
   let unsubMessages;
 
   useEffect(() => {
-    navigation.setOptions({ title: name });
+    navigation.setOptions({ title: name });//sets Username to title on use of component
 
     if (isConnected === true) {
 
@@ -44,19 +42,20 @@ const Chat = ({ isConnected, db, route, navigation }) => {
             id: doc.id,
             ...doc.data(),
             createdAt: new Date(doc.data().createdAt.toMillis())
-          })
-        })
+          });
+        });
         cacheMessages(newMessages);
         setMessages(newMessages);
       });
-    } else loadCachedMessages();
+    } else {loadCachedMessages();
+  }
 
     return () => {
       if (unsubMessages) unsubMessages();
     };
   }, [isConnected]);
 
-  const loadCachedMessages = async () => {
+   const loadCachedMessages = async () => {
     const cachedMessages = await AsyncStorage.getItem("messages") || [];
     setMessages(JSON.parse(cachedMessages));
   }
@@ -105,7 +104,7 @@ const Chat = ({ isConnected, db, route, navigation }) => {
         renderInputToolbar={renderInputToolbar}
         onSend={messages => onSend(messages)}
         user={{
-          _id: 1,
+          _id: userID,
           name: name,
         }}
       />
