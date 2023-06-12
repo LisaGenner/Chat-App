@@ -8,7 +8,6 @@ import {
   Platform,
   View,
  
- 
 } from "react-native";
 import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
 import {
@@ -21,23 +20,26 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Chat = ({ isConnected, db, route, navigation }) => {
-  const { name, color } = route.params;
+  const { name, color, userID } = route.params;
   const [messages, setMessages] = useState([]);
-  const { userID } = route.params;
-
+  
   let unsubMessages;
 
   useEffect(() => {
     navigation.setOptions({ title: name });//sets Username to title on use of component
+        console.log("userID ", userID);
 
     if (isConnected === true) {
-
+    // unregister current onSnapshot() listener to avoid registering multiple listeners when
+      // useEffect code is re-executed.
       if (unsubMessages) unsubMessages();
+      unsubMessages = null;
 
       const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+      
       unsubMessages = onSnapshot(q, (docs) => {
         let newMessages = [];
-        docs.forEach(doc => {
+        docs.forEach((doc) => {
           newMessages.push({
             id: doc.id,
             ...doc.data(),
@@ -47,8 +49,8 @@ const Chat = ({ isConnected, db, route, navigation }) => {
         cacheMessages(newMessages);
         setMessages(newMessages);
       });
-    } else {loadCachedMessages();
-  }
+    } else loadCachedMessages();
+  
 
     return () => {
       if (unsubMessages) unsubMessages();
@@ -56,7 +58,7 @@ const Chat = ({ isConnected, db, route, navigation }) => {
   }, [isConnected]);
 
    const loadCachedMessages = async () => {
-    const cachedMessages = await AsyncStorage.getItem("messages") || [];
+    const cachedMessages = (await AsyncStorage.getItem("messages")) || [];
     setMessages(JSON.parse(cachedMessages));
   }
 
@@ -66,9 +68,21 @@ const Chat = ({ isConnected, db, route, navigation }) => {
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
+  const addMessagesItem = async (newMessage) => {
+    const newMessageRef = await addDoc(
+      collection(db, "messages"),
+      newMessage[0]
+    );
+    if (!newMessageRef.id) {
+      Alert.alert(
+        "There was an error sending your message. Please try again later"
+      );
+    }
+  };
+ 
 
-   // send message => append to messages array
+  //  send message => append to messages array
    const onSend = (newMessages) => {
     setMessages((previousMessages) =>
       GiftedChat.append(previousMessages, newMessages)
@@ -76,8 +90,10 @@ const Chat = ({ isConnected, db, route, navigation }) => {
   };
 
   const renderInputToolbar = (props) => {
-    if (isConnected) return <InputToolbar {...props} />;
-    else return null;
+    if (isConnected){ return <InputToolbar {...props} />;
+   } else { 
+    return null;
+   }
   };
 
   const renderBubble = (props) => {
@@ -86,7 +102,7 @@ const Chat = ({ isConnected, db, route, navigation }) => {
         {...props}
         wrapperStyle={{
           right: {
-            backgroundColor: "#333232"
+            backgroundColor: "color"
           },
           left: {
             backgroundColor: "#FFF"
@@ -99,6 +115,7 @@ const Chat = ({ isConnected, db, route, navigation }) => {
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
       <GiftedChat
+        style={styles.textingBox}
         messages={messages}
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}

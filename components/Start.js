@@ -43,7 +43,7 @@ return (
       source={require('../assets/BackgroundImage.png')}
       style={[styles.container, styles.image]}
     >
-      <Text style={styles.title}>Chat App</Text>
+    <Text style={styles.title}>Chat App</Text>
 
       <View style={styles.inputBox}>
         <TextInput

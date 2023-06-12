@@ -9,10 +9,9 @@ import { getStorage } from "firebase/storage";
 import { useNetInfo } from "@react-native-community/netinfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
 import Start from './components/Start';
 import Chat from './components/Chat';
-
+LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -27,6 +26,11 @@ const firebaseConfig = {
   appId: "1:16129654801:web:08a35a5e4716da6ba771b0"
 };
 
+// Handle user state changes
+function onAuthStateChanged(user) {
+  setUser(user);
+  if (initializing) setInitializing(false);
+}
 // Initialize Firebase
 
 const app = initializeApp(firebaseConfig); // Init Cloud Firestore
