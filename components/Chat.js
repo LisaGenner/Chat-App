@@ -24,9 +24,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const Chat = ({ isConnected, db, route, navigation }) => {
-  const { name, userID } = route.params;
+  const { name, color } = route.params;
   const [messages, setMessages] = useState([]);
-  const { colors } = route.params.color;
+
   let unsubMessages;
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const Chat = ({ isConnected, db, route, navigation }) => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors }]}>
+    <View style={[styles.container, { backgroundColor: color }]}>
       <GiftedChat
         messages={messages}
         renderBubble={renderBubble}
