@@ -84,17 +84,18 @@ const Chat = ({ isConnected, db, route, navigation }) => {
 
   //  send message => append to messages array
    const onSend = (newMessages) => {
+    addMessagesItem(newMessages);
     setMessages((previousMessages) =>
       GiftedChat.append(previousMessages, newMessages)
     );
   };
 
   const renderInputToolbar = (props) => {
-    if (isConnected){ return <InputToolbar {...props} />;
-   } else { 
+    if (isConnected) return <InputToolbar {...props} />;
+    else 
     return null;
    }
-  };
+  
 
   const renderBubble = (props) => {
     return (
@@ -120,6 +121,7 @@ const Chat = ({ isConnected, db, route, navigation }) => {
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
         onSend={messages => onSend(messages)}
+        _id={userID}
         user={{
           _id: userID,
           name: name,

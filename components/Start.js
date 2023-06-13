@@ -76,10 +76,7 @@ return (
   style={[styles.nameBox, styles.chatBox]}
   onPress={() => {
     signInUser();
-    navigation.navigate('Chat', {
-      name: name,
-      color: color,
-    });
+ 
   }}
 >
 
