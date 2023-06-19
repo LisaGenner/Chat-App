@@ -6,9 +6,9 @@ import {
   KeyboardAvoidingView,
   Linking,
   Platform,
-  View,
- 
+  View, 
 } from "react-native";
+
 import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
 import {
   addDoc,
@@ -17,6 +17,7 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Chat = ({ isConnected, db, route, navigation }) => {

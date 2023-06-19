@@ -18,6 +18,7 @@ const Start = ({ navigation }) => {
 const [color, setColor] = useState("");
 const auth = getAuth();
 const [name, setName] = useState('');
+const [text, setText] = useState("");
 
 
  
@@ -74,7 +75,7 @@ return (
         </View>
         <TouchableOpacity
   style={[styles.nameBox, styles.chatBox]}
-  onPress={() => {
+  onPress={(sign) => {
     signInUser();
  
   }}
