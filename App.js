@@ -41,7 +41,7 @@ const connectionStatus = useNetInfo();
 useEffect(() => {
   // Check the connection status and perform actions accordingly
   if (connectionStatus.isConnected === false) {
-    Alert.alert("Connection Lost!");
+    alert("Connection Lost!");
     disableNetwork(db); // Disable Firestore network access
   } else if (connectionStatus.isConnected === true) {
     enableNetwork(db); // Enable Firestore network access
