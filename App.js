@@ -1,36 +1,71 @@
-import React, { Component } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
-
-// import the screens
-import Start from './components/Start';
-import Chat from './components/Chat';
-
-// import react Navigation
+import React from 'react';
+import { StyleSheet, Text, View, Alert, LogBox } from 'react-native';
+import { useEffect } from "react";
+import { getFirestore, disableNetwork, enableNetwork } from "firebase/firestore";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+import { useNetInfo } from "@react-native-community/netinfo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-//Create the navigator
+import Start from './components/Start';
+import Chat from './components/Chat';
+LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
 const Stack = createNativeStackNavigator();
 
-// The app’s main Chat component that renders the chat UI
 const App = () => {
+  
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAT_rxmpBv_9gujGc6lJ51LiA-4CWvC0u4",
+  authDomain: "chatapp-dec4e.firebaseapp.com",
+  projectId: "chatapp-dec4e",
+  storageBucket: "chatapp-dec4e.appspot.com",
+  messagingSenderId: "16129654801",
+  appId: "1:16129654801:web:08a35a5e4716da6ba771b0"
+};
+
+// Handle user state changes
+function onAuthStateChanged(user) {
+  setUser(user);
+  if (initializing) setInitializing(false);
+}
+// Initialize Firebase
+
+const app = initializeApp(firebaseConfig); // Init Cloud Firestore
+const db = getFirestore(app);
+const storage = getStorage(app);
+const connectionStatus = useNetInfo();
+
+useEffect(() => {
+  // Check the connection status and perform actions accordingly
+  if (connectionStatus.isConnected === false) {
+    alert("Connection Lost!");
+    disableNetwork(db); // Disable Firestore network access
+  } else if (connectionStatus.isConnected === true) {
+    enableNetwork(db); // Enable Firestore network access
+  }
+}, [connectionStatus.isConnected]);
+
+
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Start"
-      >
-        <Stack.Screen
-          name="Start"
-          component={Start}
-        />
+      <Stack.Navigator initialRouteName='Start' screenOptions={{ headerTitleAlign: "center" }}>
+        <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} />
         <Stack.Screen
           name="Chat"
-          component={Chat}
-        />
+        >
+          {props => <Chat
+            isConnected={connectionStatus.isConnected}
+            db={db}
+            storage={storage}
+            {...props}
+          />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 export default App;
