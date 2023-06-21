@@ -7,7 +7,10 @@ import {
   Linking,
   Platform,
   View, 
+  Text
 } from "react-native";
+import MapView from 'react-native-maps';
+
 
 import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
 import {
@@ -16,11 +19,12 @@ import {
   onSnapshot,
   orderBy,
   query,
-} from "firebase/firestore";
+  } from "firebase/firestore";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomActions from './CustomActions';
 
-const Chat = ({ isConnected, db, route, navigation }) => {
+const Chat = ({ isConnected, db, route, navigation, storage }) => {
   const { name, color, userID } = route.params;
   const [messages, setMessages] = useState([]);
   
@@ -37,7 +41,6 @@ const Chat = ({ isConnected, db, route, navigation }) => {
       unsubMessages = null;
 
       const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
-      
       unsubMessages = onSnapshot(q, (docs) => {
         let newMessages = [];
         docs.forEach((doc) => {
@@ -70,19 +73,18 @@ const Chat = ({ isConnected, db, route, navigation }) => {
       console.log(error.message);
     }
   };
-  const addMessagesItem = async (newMessage) => {
-    const newMessageRef = await addDoc(
-      collection(db, "messages"),
-      newMessage[0]
-    );
-    if (!newMessageRef.id) {
-      Alert.alert(
-        "There was an error sending your message. Please try again later"
-      );
-    }
-  };
+  // const addMessagesItem = async (newMessage) => {
+  //   const newMessageRef = await addDoc(
+  //     collection(db, "messages"),
+  //     newMessage[0]
+  //   );
+  //   if (!newMessageRef.id) {
+  //     Alert.alert(
+  //       "There was an error sending your message. Please try again later"
+  //     );
+  //   }
+  // };
  
-
   //  send message => append to messages array
    const onSend = (newMessages) => {
     addMessagesItem(newMessages);
@@ -97,7 +99,6 @@ const Chat = ({ isConnected, db, route, navigation }) => {
     return null;
    }
   
-
   const renderBubble = (props) => {
     return (
       <Bubble
@@ -113,6 +114,34 @@ const Chat = ({ isConnected, db, route, navigation }) => {
       />
     );
   };
+  // const renderCustomActions = (props) => {
+  //   return <CustomActions onSend={onSend} {...props} />;
+  // };
+
+  const renderCustomActions = (props) => {
+    return <CustomActions userID={userID} storage={storage} {...props} />;
+  };
+
+  const renderCustomView = (props) => {
+    const { currentMessage} = props;
+    if (currentMessage.location) {
+      return (
+          <MapView
+            style={{width: 150,
+              height: 100,
+              borderRadius: 13,
+              margin: 3}}
+            region={{
+              latitude: currentMessage.location.latitude,
+              longitude: currentMessage.location.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+      );
+    }
+    return null;
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
@@ -122,7 +151,9 @@ const Chat = ({ isConnected, db, route, navigation }) => {
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
         onSend={messages => onSend(messages)}
-        _id={userID}
+        renderActions={renderCustomActions}
+        renderCustomView={renderCustomView}
+        //  _id={userID}
         user={{
           _id: userID,
           name: name,
@@ -133,7 +164,7 @@ const Chat = ({ isConnected, db, route, navigation }) => {
       ) : null}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
