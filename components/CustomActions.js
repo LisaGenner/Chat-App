@@ -1,7 +1,8 @@
 import { TouchableOpacity, View, Text, StyleSheet, Alert } from "react-native";
-import { useActionSheet } from '@expo/react-native-action-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
+import { useActionSheet } from '@expo/react-native-action-sheet';
+
 
 const CustomActions = ({ wrapperStyle, iconTextStyle, onSend }) => {
     const actionSheet = useActionSheet();
@@ -33,9 +34,10 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend }) => {
             let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
             if (permissions?.granted) {
               let result = await ImagePicker.launchImageLibraryAsync();
-              if (!result.canceled) {
-                console.log('uploading and uploading the image occurs here');
-              } else Alert.alert("Permissions haven't been granted.");
+              if (!result.canceled) 
+                await uploadAndSendImage(result.assets[0].uri);
+                // console.log('uploading and uploading the image occurs here');
+               else alert("Permissions haven't been granted.");
             }
           }
         
@@ -43,9 +45,9 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend }) => {
             let permissions = await ImagePicker.requestCameraPermissionsAsync();
             if (permissions?.granted) {
               let result = await ImagePicker.launchCameraAsync();
-              if (!result.canceled) {
-                console.log('uploading and uploading the image occurs here');
-              } else Alert.alert("Permissions haven't been granted.");
+              if (!result.canceled) await uploadAndSendImage(result.assets[0].uri);
+                //console.log('uploading and uploading the image occurs here');
+               else alert("Permissions haven't been granted.");
             }
           }
         
@@ -59,8 +61,8 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend }) => {
                   latitude: location.coords.latitude,
                 },
               });
-            } else Alert.alert("Error occurred while fetching location");
-          } else Alert.alert("Permissions haven't been granted.");
+            } else alert("Error occurred while fetching location");
+          } else alert("Permissions haven't been granted.");
         }
         return(
       <TouchableOpacity style={styles.container} onPress={onActionPress}>

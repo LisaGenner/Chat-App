@@ -31,10 +31,10 @@ const [text, setText] = useState("");
         name: name,
         color: color ? color : "white",
       });
-      Alert.alert("Signed in successfully!");
+      alert("Signed in successfully!");
     })
     .catch((error) => {
-      Alert.alert("Unable to sign in, try again later.");
+      alert("Unable to sign in, try again later.");
     });
 };
 
