@@ -4,8 +4,8 @@ Chat app built for mobile devices using React Native.  This app will provide use
 
 # Context
 More and more people use their phones for daily tasks, such as shopping, creating to-do lists,
-communicating with friends, scheduling meetings, and more. That's why many companies offer native
-mobile versions of their web apps, or even skip creating a web app entirely.
+communicating with friends, scheduling meetings, etc. That's why many companies offer native
+mobile versions of their web apps or even skip creating a web app entirely.
 In the past, building high-quality mobile apps required a lot of time and money because writing apps
 for different platforms like iOS and Android required specialized programmers who could build and
 maintain multiple codebases.
@@ -27,8 +27,37 @@ documentation.
 Expo to develop the app and Google Firestore to store the chat messages.
 
 5. Why—Mobile chat apps are among the most commonly downloaded and used apps
-in the world, so knowing how to build a chat app is an indispensable skill. The app
+in the world, so knowing how to build a chat app is an essential skill. The app
 will demonstrate your React Native development skills.
+
+# Features
+● As a new user, I want to be able to easily enter a chat room so I can quickly start talking to my
+friends and family.
+
+● As a user, I want to be able to send messages to my friends and family members to exchange
+the latest news.
+
+● As a user, I want to send images to my friends to show them what I’m currently doing.
+
+● As a user, I want to share my location with my friends to show them where I am.
+
+● As a user, I want to be able to read my messages offline so I can reread conversations at any
+time.
+
+● As a user with a visual impairment, I want to use a chat app that is compatible with a screen
+reader so that I can engage with a chat interface.
+
+ Key Features
+● A page where users can enter their name and choose a background color for the chat screen
+before joining the chat.
+
+● A page displaying the conversation, as well as an input field and submit button.
+
+● The chat must provide users with two additional communication features: sending images
+and location data.
+
+● Data gets stored online and offline.
+
 
 # Technical Requirements
 
@@ -44,7 +73,7 @@ Chat conversations are stored locally.
 
 The app will allow users pick and send images from the phone’s image library.
 
-The app will allow users take pictures with the device’s camera app, and send them.
+The app will allow users to take pictures with the device’s camera app, and send them.
 
 The app will store images in Firebase Cloud Storage.
 
@@ -52,7 +81,15 @@ The app reads the user’s location data.
 
 Location data will be sent via the chat in a map view.
 
-The chat interface and functionality is created using the Gifted Chat library.
+The chat interface and functionality are created using the Gifted Chat library.
 
 The app’s codebase contains comments.
+
+# Git Hub Repository Screen
+
+
+
+
+
+
 
