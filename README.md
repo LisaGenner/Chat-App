@@ -65,7 +65,7 @@ Written in React Native
 
 Developed using Expo
 
- Chat conversations are stored in Google Firestore Database.
+Chat conversations are stored in Google Firestore Database.
  
 The app authenticates users anonymously via Google Firebase authentication.
 
@@ -87,7 +87,11 @@ The app’s codebase contains comments.
 
 # Git Hub Repository Screen
 
+https://github.com/LisaGenner/Chat-App
 
+# Chat App front page
+
+![image](https://github.com/LisaGenner/Chat-App/assets/116294867/593c13f5-e316-48d6-aa9d-ddc7c08ab12c)
 
 
 
