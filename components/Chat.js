@@ -7,8 +7,6 @@ import {
   Platform,
   View, 
 } from "react-native";
-// import MapView from 'react-native-maps';
-
 
 import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
 import {
@@ -21,7 +19,7 @@ import {
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomActions from './CustomActions';
-// import MapView from "react-native-maps";
+//import MapView from "react-native-maps";
 
 const Chat = ({ isConnected, db, route, navigation, storage }) => {
   const { name, color, userID } = route.params;
@@ -40,9 +38,9 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
       unsubMessages = null;
 
       const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
-      unsubMessages = onSnapshot(q, (docsSnap) => {
+      unsubMessages = onSnapshot(q, (docSnap) => {
         let newMessages = [];
-        docsSnap.forEach((doc) => {
+        docSnap.forEach((doc) => {
           newMessages.push({
             id: doc.id,
             ...doc.data(),
@@ -52,18 +50,13 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
         cacheMessages(newMessages);
         setMessages(newMessages);
       });
-    } else loadCachedMessages();
+  } else 
+    loadCachedMessages();
   
-
     return () => {
       if (unsubMessages) unsubMessages();
     };
   }, [isConnected]);
-
-   const loadCachedMessages = async () => {
-    const cachedMessages = (await AsyncStorage.getItem("messages")) || [];
-    setMessages(JSON.parse(cachedMessages));
-  }
 
   const cacheMessages = async (messagesToCache) => {
     try {
@@ -73,33 +66,17 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
     }
   };
 
-  // const addMessagesItem = async (newMessage) => {
-  //   const newMessageRef = await addDoc(
-  //     collection(db, "messages"),
-  //     newMessage[0]
-  //   );
-  //   if (!newMessageRef.id) {
-  //     Alert.alert(
-  //       "There was an error sending your message. Please try again later"
-  //     );
-  //   }
-  // };
- 
-  //  send message => append to messages array
-  //  const onSend = (newMessages) => {
-  //   addMessagesItem(newMessages);
-  //   setMessages((previousMessages) =>
-  //     GiftedChat.append(previousMessages, newMessages)
-  //   );
-  // };
+   const loadCachedMessages = async () => {
+    const cachedMessages = (await AsyncStorage.getItem("messages")) || [];
+    setMessages(JSON.parse(cachedMessages));
+  }
 
     // Append new message to firestore
     const onSend = (newMessages) => {
       addDoc(collection(db, "messages"), newMessages[0]);
     };
 
-  
-// Customize chat bubble
+ // Customize chat bubble
   const renderBubble = (props) => {
     return (
       <Bubble
@@ -115,11 +92,8 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
       />
     );
   };
-  // const renderCustomActions = (props) => {
-  //   return <CustomActions onSend={onSend} {...props} />;
-  // };
 
-    // Only render text iput toolbar when online
+  // Only render text iput toolbar when online
     const renderInputToolbar = (props) => {
       if (isConnected) return <InputToolbar {...props} />;
       else return null;
@@ -141,7 +115,7 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
             overflow: "hidden",
           }}
         >
-          <MapView
+          {/* <MapView
             style={{
               width: 150,
               height: 100,
@@ -152,7 +126,7 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
-          />
+          /> */}
         </View>
       );
     }
@@ -166,12 +140,11 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
         messages={messages}
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
-        onSend={messages => onSend(messages)}
         renderActions={renderCustomActions}
         renderCustomView={renderCustomView}
-        //  _id={userID}
-        user={{ _idid: userID, name,
-        }}
+        onSend={messages => onSend(messages)}
+                //  _id={userID}
+        user={{ _id: userID, name }}
       />
       {Platform.OS === "ios" || Platform.OS === "android" ? (
         <KeyboardAvoidingView behavior="height" />

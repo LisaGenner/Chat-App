@@ -3,7 +3,6 @@ import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, A
 import { useState } from "react";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
-
 const backgroundColors = {
   black: { backgroundColor: '#090C08'},
   purple: { backgroundColor: '#474056'},
@@ -19,8 +18,6 @@ const [color, setColor] = useState("");
 const auth = getAuth();
 const [name, setName] = useState('');
 const [text, setText] = useState("");
-
-
  
  // Function to sign in the user anonymously
  const signInUser = () => {
@@ -77,8 +74,7 @@ return (
   style={[styles.nameBox, styles.chatBox]}
   onPress={(sign) => {
     signInUser();
- 
-  }}
+   }}
 >
 
           <Text style={[styles.colorSelector, styles.chatBoxText]}>
@@ -90,7 +86,6 @@ return (
   </View>
 );
 };
-
     
 const styles = StyleSheet.create({
  container: {
@@ -162,7 +157,6 @@ color: {
     fontSize: 16,
     fontWeight: '600',
   },
-
 
 });
 export default Start;
