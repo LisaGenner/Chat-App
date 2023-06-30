@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -157,9 +156,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  // textingBox: {
-  //   flex: 1,
-  // },
+  
 });
 
 export default Chat;

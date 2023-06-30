@@ -5,12 +5,12 @@ import { getAuth, signInAnonymously } from "firebase/auth";
 
 const backgroundColors = {
   black: { backgroundColor: '#090C08'},
-  purple: { backgroundColor: '#474056'},
+  blue: { backgroundColor: '#b4d9db'},
   grey: { backgroundColor: '#8A95A5'},
   green: { backgroundColor: '#B9C6AE'}
 }
 
-const colors = ["black", "grey", "purple", "green"];
+const colors = ["#090C08", "#8A95A5", "b4d9db", "gB9C6A"];
 
 const Start = ({ navigation }) => {
   // Set initial state for text and color inputs
@@ -54,19 +54,19 @@ return (
           <View style={styles.colorWrapper}>
             <TouchableOpacity
               style={[styles.color, backgroundColors.black]}
-              onPress={() => setColor("black")}
+              onPress={() => setColor("#090C08")}
             />
             <TouchableOpacity
-              style={[styles.color, backgroundColors.purple]}
-              onPress={() => setColor("purple")}
+              style={[styles.color, backgroundColors.blue]}
+              onPress={() => setColor("#b4d9db")}
             />
             <TouchableOpacity
               style={[styles.color, backgroundColors.grey]}
-              onPress={() => setColor("grey")}
+              onPress={() => setColor("#8A95A5")}
             />
             <TouchableOpacity
               style={[styles.color, backgroundColors.green]}
-              onPress={() => setColor("green")}
+              onPress={() => setColor("#B9C6AE")}
             />
           </View>
         </View>
