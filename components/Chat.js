@@ -4,13 +4,9 @@ import {
   Alert,
   StyleSheet,
   KeyboardAvoidingView,
-  Linking,
   Platform,
   View, 
-  Text
 } from "react-native";
-import MapView from 'react-native-maps';
-
 
 import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
 import {
@@ -23,6 +19,7 @@ import {
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomActions from './CustomActions';
+//import MapView from "react-native-maps";
 
 const Chat = ({ isConnected, db, route, navigation, storage }) => {
   const { name, color, userID } = route.params;
@@ -41,9 +38,9 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
       unsubMessages = null;
 
       const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
-      unsubMessages = onSnapshot(q, (docs) => {
+      unsubMessages = onSnapshot(q, (docSnap) => {
         let newMessages = [];
-        docs.forEach((doc) => {
+        docSnap.forEach((doc) => {
           newMessages.push({
             id: doc.id,
             ...doc.data(),
@@ -53,18 +50,13 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
         cacheMessages(newMessages);
         setMessages(newMessages);
       });
-    } else loadCachedMessages();
+  } else 
+    loadCachedMessages();
   
-
     return () => {
       if (unsubMessages) unsubMessages();
     };
   }, [isConnected]);
-
-   const loadCachedMessages = async () => {
-    const cachedMessages = (await AsyncStorage.getItem("messages")) || [];
-    setMessages(JSON.parse(cachedMessages));
-  }
 
   const cacheMessages = async (messagesToCache) => {
     try {
@@ -73,32 +65,18 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
       console.log(error.message);
     }
   };
-  // const addMessagesItem = async (newMessage) => {
-  //   const newMessageRef = await addDoc(
-  //     collection(db, "messages"),
-  //     newMessage[0]
-  //   );
-  //   if (!newMessageRef.id) {
-  //     Alert.alert(
-  //       "There was an error sending your message. Please try again later"
-  //     );
-  //   }
-  // };
- 
-  //  send message => append to messages array
-   const onSend = (newMessages) => {
-    addMessagesItem(newMessages);
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, newMessages)
-    );
-  };
 
-  const renderInputToolbar = (props) => {
-    if (isConnected) return <InputToolbar {...props} />;
-    else 
-    return null;
-   }
-  
+   const loadCachedMessages = async () => {
+    const cachedMessages = (await AsyncStorage.getItem("messages")) || [];
+    setMessages(JSON.parse(cachedMessages));
+  }
+
+    // Append new message to firestore
+    const onSend = (newMessages) => {
+      addDoc(collection(db, "messages"), newMessages[0]);
+    };
+
+ // Customize chat bubble
   const renderBubble = (props) => {
     return (
       <Bubble
@@ -114,50 +92,59 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
       />
     );
   };
-  // const renderCustomActions = (props) => {
-  //   return <CustomActions onSend={onSend} {...props} />;
-  // };
+
+  // Only render text iput toolbar when online
+    const renderInputToolbar = (props) => {
+      if (isConnected) return <InputToolbar {...props} />;
+      else return null;
+    };
 
   const renderCustomActions = (props) => {
     return <CustomActions userID={userID} storage={storage} {...props} />;
   };
 
+  // Render element with map and geolocation
   const renderCustomView = (props) => {
-    const { currentMessage} = props;
+    const { currentMessage } = props;
     if (currentMessage.location) {
       return (
-          <MapView
-            style={{width: 150,
+        <View
+          style={{
+            borderRadius: 13,
+            margin: 3,
+            overflow: "hidden",
+          }}
+        >
+          {/* <MapView
+            style={{
+              width: 150,
               height: 100,
-              borderRadius: 13,
-              margin: 3}}
+            }}
             region={{
               latitude: currentMessage.location.latitude,
               longitude: currentMessage.location.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
-          />
+          /> */}
+        </View>
       );
     }
     return null;
-  }
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
       <GiftedChat
-        style={styles.textingBox}
+        // style={styles.textingBox}
         messages={messages}
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
-        onSend={messages => onSend(messages)}
         renderActions={renderCustomActions}
         renderCustomView={renderCustomView}
-        //  _id={userID}
-        user={{
-          _id: userID,
-          name: name,
-        }}
+        onSend={messages => onSend(messages)}
+                //  _id={userID}
+        user={{ _id: userID, name }}
       />
       {Platform.OS === "ios" || Platform.OS === "android" ? (
         <KeyboardAvoidingView behavior="height" />
@@ -170,9 +157,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  textingBox: {
-    flex: 1,
-  },
+  // textingBox: {
+  //   flex: 1,
+  // },
 });
 
 export default Chat;
