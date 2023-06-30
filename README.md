@@ -85,6 +85,9 @@ The chat interface and functionality are created using the Gifted Chat library.
 
 The app’s codebase contains comments.
 
+# Start up:
+Using "Expo Start" in Terminal to launch the app in the browser and mobile device.
+
 # Git Hub Repository Screen
 
 https://github.com/LisaGenner/Chat-App
