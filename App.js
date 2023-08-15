@@ -1,5 +1,3 @@
-// import React from 'react';
-import { StyleSheet, Alert } from 'react-native';
 import { useEffect } from "react";
 import { getFirestore, disableNetwork, enableNetwork } from "firebase/firestore";
 import { NavigationContainer } from '@react-navigation/native';
@@ -47,8 +45,7 @@ useEffect(() => {
         <Stack.Screen name='Start' component={Start} options={{ headerShown: false }} />
         <Stack.Screen
           name="Chat">
-       
-          {props => <Chat
+            {props => <Chat
             isConnected={connectionStatus.isConnected}
             db={db}
             storage={storage}

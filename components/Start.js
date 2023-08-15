@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, Alert  } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity } from 'react-native';
 import { useState } from "react";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
@@ -35,6 +35,7 @@ const [text, setText] = useState("");
     });
 };
 
+// sets background image
 return (
   <View style={styles.container}>
     <ImageBackground
@@ -86,7 +87,8 @@ return (
   </View>
 );
 };
-    
+ 
+// styling
 const styles = StyleSheet.create({
  container: {
    flex: 1,

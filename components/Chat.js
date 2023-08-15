@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  Alert,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -135,14 +134,12 @@ const Chat = ({ isConnected, db, route, navigation, storage }) => {
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
       <GiftedChat
-        // style={styles.textingBox}
         messages={messages}
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
         renderActions={renderCustomActions}
         renderCustomView={renderCustomView}
         onSend={messages => onSend(messages)}
-                //  _id={userID}
         user={{ _id: userID, name }}
       />
       {Platform.OS === "ios" || Platform.OS === "android" ? (
@@ -156,7 +153,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  
-});
+  });
 
 export default Chat;
